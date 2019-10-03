@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Brew">
+  
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <title>Hello, world!</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"
+    ></script>
+    <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key={API KEY}&ver=3.exp"></script>
+   	<link href="css/freelancer.min.css" rel="stylesheet">
+	<link rel="apple-touch-icon" sizes="57x57" href="img/icon/apple-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="img/icon/apple-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="img/icon/apple-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="img/icon/apple-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="img/icon/apple-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="img/icon/apple-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="img/icon/apple-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="img/icon/apple-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="img/icon/apple-icon-180x180.png">
+	<link rel="icon" type="image/png" sizes="192x192"  href="img/icon/android-icon-192x192.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="img/icon/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="img/icon/favicon-96x96.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="img/icon/favicon-16x16.png">
+	<link rel="manifest" href="img/icon/manifest.json">
+    <style>
+      #camera {
+        z-index: -1;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+      #videoElement {
+        z-index: inherit;
+        width: 100vw;
+        height: 100vh;
+        background-color: #FFF;
+      }
+
+      #canvasElement {
+        width: 640px;
+        height: 480px;
+        display: none;
+      }
+
+      #canvasElement2 {
+        width: 640px;
+        height: 480px;
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="camera">
+      <video autoplay="true" id="videoElement"></video>
+      <canvas id="canvasElement"></canvas>
+      <canvas id="canvasElement2"></canvas>
+    </div>
+    <div class="container-fluid" style="z-index: 1">
+      <div
+        class="row d-flex align-items-between justify-content-center"
+        style="width:100vw;height: 100vh;"
+      >
+        <div class="row d-flex justify-content-center" style="width:100vw">
+          <button
+            style="width:100%;padding:30px;"
+            type="button"
+            class="btn btn-outline-primary"
+            id="continuous"
+          >
+            Continuous Information Toggle
+          </button>
+        </div>
+        <div class="row d-flex justify-content-center" style="width:100vw">
+          <button
+            style="width:100%;padding:30px;"
+            type="button"
+            class="btn btn-outline-primary"
+            id="where"
+          >
+            Where am I?
+          </button>
+        </div>
+        <div class="row d-flex justify-content-center" style="width:100vw">
+          <button
+            style="width:100%;padding:30px;"
+            type="button"
+            class="btn btn-outline-primary"
+            id="priorityInfo"
+          >
+            Get Priority Information
+          </button>
+        </div>
+        <div class="row d-flex justify-content-center" style="width:100vw">
+          <button
+            style="width:100%;padding:30px;"
+            type="button"
+            class="btn btn-outline-primary"
+            id="describe"
+          >
+            Scene Description
+          </button>
+        </div>
+        <div class="row d-flex justify-content-center" style="width:100vw">
+          <button
+            style="width:100%;padding:30px;"
+            type="button"
+            class="btn btn-outline-primary"
+            id="exit"
+          >
+            Exit
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      jQuery(document).ready(function($) {
+        $("#where").click(function(e) {
+          e.preventDefault();
+
+          /* Chrome need SSL! */
+          var is_chrome = /chrom(e|ium)/.test(
+            navigator.userAgent.toLowerCase()
+          );
+          var is_ssl = "https:" == document.location.protocol;
+          if (is_chrome && !is_ssl) {
+            return false;
+          }
+          
+
+          /* HTML5 Geolocation */
+          navigator.geolocation.getCurrentPosition(
+            function(position) {
+              // success cb
+
+              /* Current Coordinate */
+              var lat = position.coords.latitude;
+              var lng = position.coords.longitude;
+              var google_map_pos = new google.maps.LatLng(lat, lng);
+
+              /* Use Geocoder to get address */
+              var google_maps_geocoder = new google.maps.Geocoder();
+              google_maps_geocoder.geocode({ latLng: google_map_pos }, function(
+                results,
+                status
+              ) {
+                alert(status)
+                if (status == google.maps.GeocoderStatus.OK && results[0]) {
+                 alert(results[0].formatted_address);
+                }
+              });
+            },
+            function() {
+              // fail cb
+            }
+          );
+        });
+      });
+    </script>
+
+<script type="text/javascript">
+  if (navigator.serviceWorker.controller) {
+    console.log('[PWA Builder] active service worker found, no need to register')
+  } else {
+    //Register the ServiceWorker
+    navigator.serviceWorker.register('pwabuilder-sw.js', {
+      scope: './'
+    }).then(function(reg) {
+      console.log('Service worker has been registered for scope:'+ reg.scope);
+    });
+  }
+
+</script>
+<script>
+  let deferredPrompt;
+  const addBtn = document.getElementById('add-button');
+  addBtn.style.display = 'none';
+  window.addEventListener('beforeinstallprompt', (e) => {
+  // Prevent Chrome 67 and earlier from automatically showing the prompt
+  e.preventDefault();
+  // Stash the event so it can be triggered later.
+  deferredPrompt = e;
+  // Update UI to notify the user they can add to home screen
+  addBtn.style.display = 'block';
+
+  addBtn.addEventListener('click', (e) => {
+    // hide our user interface that shows our A2HS button
+    addBtn.style.display = 'none';
+    // Show the prompt
+    deferredPrompt.prompt();
+    // Wait for the user to respond to the prompt
+    deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('User accepted the A2HS prompt');
+        } else {
+          console.log('User dismissed the A2HS prompt');
+        }
+        deferredPrompt = null;
+      });
+  });
+});
+</script>
+
+<script>
+	let namespace = "/videoStream";
+	let video = document.querySelector("#videoElement");
+	let canvas = document.querySelector("#canvasElement");
+	let ctx = canvas.getContext('2d');
+	canvas.width = 640;
+	canvas.height = 480;
+
+
+  let canvas2 = document.querySelector("#canvasElement2");
+  let ctx2 = canvas2.getContext('2d');
+	canvas2.width = 640;
+	canvas2.height = 480;
+
+  var imageRecv = new Image();
+  imageRecv.onload = function() {
+    ctx2.drawImage(imageRecv, 0, 0);
+  };
+
+	var localMediaStream = null;	
+	let urlObject
+	
+	var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port + namespace,{reconnect: true});
+
+	function sendSnapshot() {
+		if (!localMediaStream) {
+			return;
+		}
+    if(socket.connected){
+		ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+    let dataURL = canvas.toDataURL('image/jpeg');
+    socket.emit('inputImage', dataURL);
+			console.log("Frame Sent!")
+    }
+    else{
+			console.log("Socket Not Connected")
+		}
+	}
+
+
+  
+
+    socket.on('connect', function() {
+	    console.log('Connected to Server!');
+
+		socket.on('priorityOutput',function(msg){
+      console.log("Received Message: ",msg)
+      imageRecv.src = msg
+    })
+
+		socket.on("disconnect",function(){
+			console.log("Socket Disconnected")
+		})
+
+		var constraints = {
+			video: {
+			  width: { min: 640 },
+			  height: { min: 480 },
+        facingMode: { 
+          exact: 'environment'
+        }
+			}
+		};
+
+		navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
+			video.srcObject = stream;
+			localMediaStream = stream;
+
+			setInterval(function () {
+			  sendSnapshot();
+			}, 100);
+		  }).catch(function(error) {
+			console.log(error);
+		});
+		});
+
+
+
+
+	</script>
+
+    <script>
+      continuousInfo = false;
+      document.getElementById("continuous").onclick = function() {
+        navigator.vibrate =
+          navigator.vibrate ||
+          navigator.webkitVibrate ||
+          navigator.mozVibrate ||
+          navigator.msVibrate;
+
+        if (navigator.vibrate) {
+          navigator.vibrate([300, 100, 300, 100, 300]);
+        }
+      };
+    </script>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

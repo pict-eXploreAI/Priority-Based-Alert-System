@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Start your development with a Design System for Bootstrap 4.">
+  <meta name="author" content="Creative Tim">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="PWA Test">
+  <link rel="apple-touch-icon" href="/img/icon/android-icon-192x192.png">
+  <meta name="theme-color" content="#2F3BA2" />
+  <title>Priority Based Alert System</title>
+  <!-- Favicon -->
+  <link href="./static/assets/img/brand/favicon.png" rel="icon" type="image/png">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+  <!-- Icons -->
+  <link href="/static/assets/vendor/nucleo/css/nucleo.css" rel="stylesheet">
+  <link href="/static/assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <!-- Argon CSS -->
+  <link type="text/css" href="/static/assets/css/argon.css?v=1.1.0" rel="stylesheet">
+  <link rel="manifest" href="static/icon/manifest.json">
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.sound.min.js"></script>
+  <script type="text/javascript" src="/static/libraries/p5.speech.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+  <!--<script type="text/javascript" src="libraries/p5.min.js"></script>-->
+  <!--script type="text/javascript" src="sketch.js"></script-->
+
+  <style>
+    #camera {
+      z-index: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    #videoElement {
+      z-index: inherit;
+      width: 100vw;
+      height: 100vh;
+      background-color: #FFF;
+    }
+
+    #canvasElement {
+      width: 640px;
+      height: 480px;
+      display: block;
+    }
+  </style>
+</head>
+
+<body style="overflow: none;">
+  <div id="camera">
+    <video autoplay="true" id="videoElement"></video>
+    <canvas id="canvasElement"></canvas>
+  </div>
+  <main>
+    <div class="position-relative">
+      <section class=" section-hero section-shaped">
+        <!-- Background circles -->
+        <div class="shape shape-style-1 shape-primary" style="z-index: -1">
+
+        </div>
+        <div class="container-fluid  pt-3" style="height: 100vh;background-color: transparent">
+          <div class="row d-flex justify-content-center ml-1">
+            <div class="col-10">
+              <ul class="nav nav-pills nav-pills-circle row d-flex justify-content-center" id="tabs_2" role="tablist">
+                <li class="nav-item col-4">
+                  <a id="english" class="nav-link rounded-circle active" id="home-tab" data-toggle="tab" href=""
+                    role="tab" aria-selected="true">
+                    English
+                  </a>
+                </li>
+                <li class="nav-item col-4">
+                  <a id="hindi" class="nav-link rounded-circle active" id="home-tab" data-toggle="tab" href=""
+                    role="tab" aria-selected="true">
+                    Hindi
+                  </a>
+                </li>
+                <li class="nav-item col-4">
+                  <a id="tamil" class="nav-link rounded-circle active" id="home-tab" data-toggle="tab" href=""
+                    role="tab" aria-selected="true">
+                    Tamil
+                  </a>
+                </li>
+                <li class="nav-item col-4">
+                  <a id="marathi" class="nav-link rounded-circle active" id="home-tab" data-toggle="tab" href=""
+                    role="tab" aria-selected="true">
+                    Marathi
+                  </a>
+                </li>
+                <li class="nav-item col-4">
+                  <a id="telugu" class="nav-link rounded-circle active" id="home-tab" data-toggle="tab" href=""
+                    role="tab" aria-selected="true">
+                    Telugu
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="row d-flex justify-content-center align-items-center mt-5">
+            <button class="btn btn-primary pl-5 pr-5 pt-4 pb-4" type="button" id="continous" style="width:70%">Continous
+              Information</button>
+          </div>
+
+          <div class="container">
+            <div class="row d-flex align-items-center justify-content-center mt-3">
+              <div class="col-4">
+                <button class="btn btn-primary pt-4 pb-4 align-items-center justify-content-center" id="sos"
+                  type="button" style="width: 120%;">SOS</button>
+              </div>
+              <div class="col-4">
+                <button class="btn btn-primary pt-4 pb-4 align-items-center justify-content-center" id="priority"
+                  type="button" style="width: 120%;">Priority</button>
+              </div>
+              <div class="col-4">
+                <button class="btn btn-primary pt-4 pb-4 align-items-center justify-content-center" id="location"
+                  type="button" style="width: 120%;">Location</button>
+              </div>
+            </div>
+          </div>
+          <div class="row d-flex justify-content-center align-items-center mt-3">
+            <button class="btn btn-primary pl-5 pr-5 pt-4 pb-4" id="sceneDescription" type="button"
+              style="width:70%">Describe Scene</button>
+          </div>
+          <div class="row d-flex justify-content-center mt-5">
+            <button class="btn btn-primary pl-5 pr-5" type="button" id="exit" style="width: 80%">Exit</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+  <!-- Core -->
+  <script src="/static/assets/vendor/jquery/jquery.min.js"></script>
+  <script src="/static/assets/vendor/popper/popper.min.js"></script>
+  <script src="/static/assets/vendor/bootstrap/bootstrap.min.js"></script>
+  <script src="/static/assets/vendor/headroom/headroom.min.js"></script>
+  <!-- Optional JS -->
+  <script src="/static/assets/vendor/onscreen/onscreen.min.js"></script>
+  <script src="/static/assets/vendor/nouislider/js/nouislider.min.js"></script>
+  <script src="/static/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+  <!-- Argon JS -->
+  <script src="/static/assets/js/argon.js?v=1.1.0"></script>
+  <script src="/static/app.js"></script>
+  <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+
+  <script>
+    speech = new p5.Speech(); // speech synthesis object
+    speech.onLoad = voiceReady;
+    var voice, voices
+    function voiceReady() {
+      console.log('voice ready');
+      //console.log(speech.voices);
+      voices = speech.voices;
+      console.log("Voices: ", voices);
+      voice = voices[7];
+      console.log("Voice: ", voice);
+      speech.setVoice(voice.name);
+    }
+    function speak(message) {
+      speech.speak(message);
+    }
+
+    document.onload = function () {
+      alert("Welcome to Netra. A Priority Based Alert System For Visually Impaired")
+    }
+  </script>
+
+  <script>
+    continousInfo = false
+    navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
+
+    document.getElementById("continous").onclick = function () {
+      if (continousInfo) {
+        speak("Continous Information Turned Off")
+        continousInfo = false
+      }
+      else {
+        speak("Continous Information Turned On")
+        continousInfo = true
+      }
+      if (navigator.vibrate) {
+        // vibration API supported
+        navigator.vibrate(100);
+      }
+    }
+    document.getElementById("sos").onclick = function () {
+      speak("Sending SOS Message to ...")
+      if (navigator.vibrate) {
+        // vibration API supported
+        navigator.vibrate([100, 300, 100]);
+      }
+    }
+    document.getElementById("priority").onclick = function () {
+      speak("Priority Information: ")
+      if (navigator.vibrate) {
+        // vibration API supported
+        navigator.vibrate(500);
+      }
+      sendSnapshot();
+    }
+    document.getElementById("location").onclick = function () {
+      speak("You are currently in C DAC Innovation Park, Panchawati Road, Pune")
+      if (navigator.vibrate) {
+        // vibration API supported
+        navigator.vibrate([300, 300, 300]);
+      }
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+      }
+    }
+    document.getElementById("sceneDescription").onclick = function () {
+      speak("Scene Description")
+      if (navigator.vibrate) {
+        // vibration API supported
+        navigator.vibrate([200, 20, 200, 20, 200]);
+      }
+    }
+    document.getElementById("exit").onclick = function () {
+      speak("Exiting System. Thank You.")
+      if (navigator.vibrate) {
+        // vibration API supported
+        navigator.vibrate(1000);
+      }
+    }
+
+    document.getElementById("english").onclick = function () {
+      speak("Language Switched to English")
+      if (navigator.vibrate) {
+        // vibration API supported
+        navigator.vibrate([100, 100, 100]);
+      }
+    }
+
+    document.getElementById("hindi").onclick = function () {
+      speak("Language Switched to Hindi")
+      if (navigator.vibrate) {
+        // vibration API supported
+        navigator.vibrate([100, 100, 100]);
+      }
+    }
+
+    document.getElementById("marathi").onclick = function () {
+      speak("Language Switched to Marathi")
+      if (navigator.vibrate) {
+        // vibration API supported
+        navigator.vibrate([100, 100, 100]);
+      }
+    }
+
+    document.getElementById("tamil").onclick = function () {
+      speak("Language Switched to Tamil")
+      if (navigator.vibrate) {
+        // vibration API supported
+        navigator.vibrate([100, 100, 100]);
+      }
+    }
+
+    document.getElementById("telugu").onclick = function () {
+      speak("Language Switched to Telugu")
+      if (navigator.vibrate) {
+        // vibration API supported
+        navigator.vibrate([100, 100, 100]);
+      }
+    }
+  </script>
+
+  <script>
+    function showPosition(position) {
+      alert("Hello World")
+      let location = {
+        latitude: '',
+        longitude: ''
+      };
+      location.latitude = position.coords.latitude;
+      location.longitude = position.coords.longitude;
+      var geocoder = new google.maps.Geocoder();
+      var latLng = new google.maps.LatLng(location.latitude, location.longitude);
+
+      if (geocoder) {
+        geocoder.geocode({ 'latLng': latLng }, function (results, status) {
+          if (status == google.maps.GeocoderStatus.OK) {
+            console.log(results[0].formatted_address);
+          }
+          else {
+            console.log("Geocoding failed: " + status);
+          }
+        }); //geocoder.geocode()
+      }
+    } //showPosition
+  </script>
+
+  <script>
+
+    var receivedMessage = "";
+    let namespace = "/videoStream";
+    let video = document.querySelector("#videoElement");
+    let canvas = document.querySelector("#canvasElement");
+    let ctx = canvas.getContext('2d');
+    canvas.width = 640;
+    canvas.height = 480;
+
+    var localMediaStream = null;
+    let urlObject
+
+    var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port + namespace, { reconnect: true });
+
+    function sendSnapshot() {
+      if (!localMediaStream) {
+        return;
+      }
+      if (socket.connected) {
+        ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+        let dataURL = canvas.toDataURL('image/jpeg');
+        socket.emit('inputImage', dataURL);
+        console.log("Frame Sent!")
+      }
+      else {
+        console.log("Socket Not Connected")
+      }
+    }
+
+    socket.on('connect', function () {
+      console.log('Connected to Server!');
+      speak("Welcome to Netra!")
+      socket.on('priorityOutput', function (msg) {
+        receivedMessage = msg;
+        speak(receivedMessage)
+        receivedMessage = ""
+      })
+
+      socket.on("disconnect", function () {
+        console.log("Socket Disconnected")
+      })
+
+      var constraints = {
+        video: {
+          width: { min: 640 },
+          height: { min: 480 },
+          facingMode: {
+            exact: 'environment'
+          }
+        }
+      };
+
+      navigator.mediaDevices.getUserMedia(constraints).then(function (stream) {
+        video.srcObject = stream;
+        localMediaStream = stream;
+
+        setInterval(function () {
+          // if (continuousInfo) {
+          //   sendSnapshot();
+          // }
+          sendSnapshot()
+        }, 1000);
+      }).catch(function (error) {
+        console.log(error);
+      });
+    });
+
+  </script>
+
+</body>
+
+</html>
