@@ -104,8 +104,12 @@ def load_model():
     num_params = model_parameters(model)
     if args.weights_test:
         print_info_message('Loading model weights')
-        weight_dict = torch.load(
-            args.weights_test, map_location=torch.device('cuda'))
+        try:
+            weight_dict = torch.load(
+                args.weights_test, map_location=torch.device('cuda'))
+        except:
+            weight_dict = torch.load(
+                args.weights_test, map_location=torch.device('cpu'))
         model.load_state_dict(weight_dict)
         print_info_message('Weight loaded successfully')
     else:
