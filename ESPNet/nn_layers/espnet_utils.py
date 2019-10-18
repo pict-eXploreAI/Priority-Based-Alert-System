@@ -1,10 +1,5 @@
 import torch.nn as nn
 
-#============================================
-__author__ = "Sachin Mehta"
-__maintainer__ = "Sachin Mehta"
-#============================================
-
 class CBR(nn.Module):
     '''
     This class defines the convolution layer with batch normalization and PReLU activation

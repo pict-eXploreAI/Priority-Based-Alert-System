@@ -1,3 +1,4 @@
+""" The Flask Server for the PWA """
 
 import sys
 import os
@@ -15,11 +16,10 @@ from flask_socketio import SocketIO, emit
 sys.path.append("../")
 sys.path.append("./")
 
-from Instance_Segementation import live_seg  # 2 as live_seg
+from Instance_Segementation import live_seg
 import time
 from ESPNet import test_seg
 from Priority import priority
-# from text2speech_multilingual import please1
 
 # Initialize Flask
 app = Flask(__name__)
@@ -52,14 +52,15 @@ def videoStream_connect():
     print("Client Connected")
 
 
+# Socket code for connecting to the client for video streaming from client-server
 import time
 @socketio.on('inputImage', namespace='/videoStream')
 def videoStream_message(input):
     start = time.time()
     print("Received Frame")
-    # output_str = input
     input = input.split(",")[1]
 
+    # Decoding the base64 image
     input_img = base64_to_pil_image(input).convert('RGB')
 
     cvImg = np.array(input_img)
@@ -71,7 +72,6 @@ def videoStream_message(input):
     segmented_img = test_seg.evaluate(modelESPNet, cvImg, device)
 
     # Instance Segmentation
-    #instance_img = live_seg.run_instance_model(modelInstance,cvImg)
     instance_img, instance_img_colored = live_seg.run_instance_model(
         modelInstance, cvImg)
     cv2.imshow("Instance Mask", instance_img_colored)
@@ -83,35 +83,23 @@ def videoStream_message(input):
     color_map = cv2.cvtColor(color_map, cv2.COLOR_RGB2BGR)
     cv2.imshow("Depth", color_map)
 
-    # object motion
-    # objectmotion_vector = objectmotion.objectmotion.run_inference(sess=sess, model=inference_model, image_list=[color_map, instance_img])
-
-    # closest_message = priority.get_the_closest(color_map, instance_img)
-    # path_message = priority.get_the_path_message(instance_img)
-    # objectmotion_message = priority.get_the_object_motion_message("", objectmotion_vector)
-
-    # print("priorityOutput", closest_message[0] + ". " + path_message[0] + ". " + objectmotion_message)
-
     closest_message = priority.get_the_closest(
         color_map, instance_img, instance_img_colored)
     path_message = priority.get_the_path_message(segmented_img)
-    #objectmotion_message = priority.get_the_object_motion_message("", objectmotion_vector)
     final_message = ""
 
-    # + objectmotion_message)
     print("priorityOutput", closest_message + path_message)
     emit("priorityOutput", closest_message + path_message)
-    print("Inference time: ", time.time() - start)
+    print("Inference time:", time.time() - start)
 
     if cv2.waitKey(1) == 27:
         return
 
-    #output_str = "Priority Information"
-
 
 if __name__ == '__main__':
     host = os.system("hostname -I")
-    socketio.run(app, debug=True, host="0.0.0.0", port=5000,keyfile="./key.pem",certfile="./cert.pem",use_reloader=False)
+    socketio.run(app, debug=True, host="0.0.0.0", port=5000, keyfile="./key.pem", certfile="./cert.pem", use_reloader=False)
+    # Code for lower Django version, if you get error for keyfile and certfile syntac
     # socketio.run(app, debug=True, host="192.168.43.165", port=5000,
     #              ssl_context=('./cert.pem', './key.pem'), use_reloader=False)
 

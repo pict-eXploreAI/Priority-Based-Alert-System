@@ -1,8 +1,9 @@
-# Priority-Based-Alert-System
+# Priority Based Alert System
 
 ## Problem Statement
 Given the video stream in the front of a Visually Impaired person, tell the most significant piece of
-information at any given point of time
+information at any given point of time.
+This is the problem statement that we choose for the CDAC AI Hackathon, India.
 
 ## Motivation
 Travelling in a new environment, a visually impaired person often faces the challenges in orienting themselves, as

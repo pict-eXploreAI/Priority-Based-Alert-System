@@ -11,18 +11,12 @@ from utilities.print_utils import *
 from transforms.classification.data_transforms import MEAN, STD
 from utilities.utils import model_parameters, compute_flops
 
-# ===========================================
-__author__ = "Sachin Mehta"
-__license__ = "MIT"
-__maintainer__ = "Sachin Mehta"
-# ============================================
-
 
 def relabel(img):
     '''
-    This function relabels the predicted labels so that cityscape dataset can process
-    :param img:
-    :return:
+		This function relabels the predicted labels so that cityscape dataset can process
+		:param img:
+		:return:
     '''
     img[img == 19] = 255
     img[img == 18] = 33

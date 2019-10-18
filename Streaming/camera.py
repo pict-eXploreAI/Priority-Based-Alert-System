@@ -4,6 +4,7 @@ from time import sleep
 from utils import base64_to_pil_image, pil_image_to_base64
 
 
+# Class to perform encoding and decoding the images captured from camera
 class Camera(object):
     def __init__(self):
         self.to_process = []
@@ -23,14 +24,13 @@ class Camera(object):
         # convert it to a pil image
         input_img = base64_to_pil_image(input_str)
 
-        ################## where the hard work is done ############
         # output_img is an PIL image
         output_img = input_img
 
         # output_str is a base64 string in ascii
         output_str = pil_image_to_base64(output_img)
 
-        # convert eh base64 string in ascii to base64 string in _bytes_
+        # convert the base64 string in ascii to base64 string in _bytes_
         self.to_output.append(binascii.a2b_base64(output_str))
 
     def keep_processing(self):

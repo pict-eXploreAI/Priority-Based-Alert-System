@@ -1,17 +1,9 @@
-
 import os
 import torch
 from ESPNet.utilities.print_utils import print_info_message
 import numpy as np
 
-#============================================
-__author__ = "Sachin Mehta"
-__maintainer__ = "Sachin Mehta"
-#============================================
-
-'''
-This file is mostly adapted from the PyTorch ImageNet example
-'''
+""" This file is mostly adapted from the PyTorch ImageNet example """
 
 class AverageMeter(object):
     """Computes and stores the average and current value"""

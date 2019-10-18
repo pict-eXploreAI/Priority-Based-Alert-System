@@ -5,11 +5,6 @@ import math
 import torch
 from ESPNet.model.classification import espnetv2_config as config
 
-#============================================
-__author__ = "Sachin Mehta"
-__maintainer__ = "Sachin Mehta"
-#============================================
-
 config_inp_reinf = config.config_inp_reinf
 
 class EESP(nn.Module):

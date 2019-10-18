@@ -1,7 +1,3 @@
-#============================================
-__author__ = "Sachin Mehta"
-__maintainer__ = "Sachin Mehta"
-#============================================
 import torch
 from torch import nn
 import torch.nn.functional as F

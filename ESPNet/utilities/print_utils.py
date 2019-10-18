@@ -1,7 +1,3 @@
-# ============================================
-__author__ = "Sachin Mehta"
-__maintainer__ = "Sachin Mehta"
-# ============================================
 import time
 
 text_colors = {
@@ -11,7 +7,7 @@ text_colors = {
                'error': '\033[31m',
                'bold': '\033[1m',
                'end_color': '\033[0m'
-               }
+              }
 
 
 def get_curr_time_stamp():

@@ -36,7 +36,7 @@ dataset_key = '{}_{}x{}'.format(args.dataset, args.im_size[0], args.im_size[1])
 
 
 args.weights = ''
-args.weights_test = "../ESPNet/"+model_weight_map[model_key][dataset_key]['weights']
+args.weights_test = "../ESPNet/" + model_weight_map[model_key][dataset_key]['weights']
 
 def relabel(img):
     '''

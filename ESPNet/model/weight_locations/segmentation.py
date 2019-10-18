@@ -1,8 +1,3 @@
-# ============================================
-__author__ = "Sachin Mehta"
-__maintainer__ = "Sachin Mehta"
-# ============================================
-
 model_weight_map = {}
 # key is of the form <model-name_model-scale>
 

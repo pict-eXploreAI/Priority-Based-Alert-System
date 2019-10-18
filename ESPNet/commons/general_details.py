@@ -1,8 +1,3 @@
-# ============================================
-__author__ = "Sachin Mehta"
-__maintainer__ = "Sachin Mehta"
-# ============================================
-
 # classification related details
 classification_datasets = ['imagenet', 'coco']
 classification_schedulers = ['fixed', 'clr', 'hybrid', 'linear', 'poly']

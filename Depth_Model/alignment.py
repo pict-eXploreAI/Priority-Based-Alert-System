@@ -1,5 +1,4 @@
-
-"""Common utilities for data pre-processing, e.g. matching moving object across frames."""
+""" Common utilities for data pre-processing, e.g. matching moving object across frames. """
 
 import cv2
 import numpy as np

@@ -1,8 +1,3 @@
-#============================================
-__author__ = "Sachin Mehta"
-__maintainer__ = "Sachin Mehta"
-#============================================
-
 from torch import nn
 import math
 from ESPNet.nn_layers.cnn_utils import CBR
