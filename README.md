@@ -1,5 +1,12 @@
 # Priority Based Alert System
 
+![issue badge](https://img.shields.io/github/issues/pict-eXploreAI/Priority-Based-Alert-System)
+![fork badge](https://img.shields.io/github/forks/pict-eXploreAI/Priority-Based-Alert-System)
+![stars badge](https://img.shields.io/github/stars/pict-eXploreAI/Priority-Based-Alert-System)
+![license badge](https://img.shields.io/github/license/pict-eXploreAI/Priority-Based-Alert-System)
+![tweet](https://img.shields.io/twitter/url?url=https%3A%2F%2Fgithub.com%2Fpict-eXploreAI%2FPriority-Based-Alert-System
+)
+
 ## Problem Statement
 Given the video stream in the front of a Visually Impaired person, tell the most significant piece of
 information at any given point of time.
