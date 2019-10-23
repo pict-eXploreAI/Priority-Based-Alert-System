@@ -79,4 +79,6 @@ Aditya Chaloo <a href="https://github.com/adichaloo"><img src="https://cdn1.icon
 ### Are you interested ?
 - Fork the repository
 - Make the changes
+- Follow the guidelines provided in [CONTRIBUTING.md](CONTRIBUTING.md) file.
+- Checkout the [Pull Request template](https://github.com/pict-eXploreAI/Priority-Based-Alert-System/blob/master/.github/PULL_REQUEST_TEMPLATE.md)
 - Send the Pull Request :)
