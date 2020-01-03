@@ -72,7 +72,7 @@ that we can further work on to make life of visually impaired/blind person more 
 
 ## Team
 Bhushan Pagare <a href="https://github.com/bpagare6"><img src="https://cdn1.iconfinder.com/data/icons/social-media-vol-1-1/24/_github-512.png" width=30 height=30/></a> <a href="https://www.linkedin.com/in/bhushanpagare/"><img src="https://icon-library.net/images/linkedin-icon-eps/linkedin-icon-eps-29.jpg" width=30 height=30/></a><br/>
-Kunal Chadha <a href="https://github.com/ks2334"><img src="https://cdn1.iconfinder.com/data/icons/social-media-vol-1-1/24/_github-512.png" width=30 height=30/></a><br/>
+Kunal Chadha <a href="https://github.com/ks2334"><img src="https://cdn1.iconfinder.com/data/icons/social-media-vol-1-1/24/_github-512.png" width=30 height=30/></a><a href="https://www.linkedin.com/in/kunal-chadha-572895194/"><img src="https://icon-library.net/images/linkedin-icon-eps/linkedin-icon-eps-29.jpg" width=30 height=30/></a><br/>
 Kunal Sinha <a href="https://github.com/kunalsinha9"><img src="https://cdn1.iconfinder.com/data/icons/social-media-vol-1-1/24/_github-512.png" width=30 height=30/></a> <a href="https://www.linkedin.com/in/kunal-sinha-287351167/"><img src="https://icon-library.net/images/linkedin-icon-eps/linkedin-icon-eps-29.jpg" width=30 height=30/></a><br/>
 Aditya Chaloo <a href="https://github.com/adichaloo"><img src="https://cdn1.iconfinder.com/data/icons/social-media-vol-1-1/24/_github-512.png" width=30 height=30/></a> <a href="https://www.linkedin.com/in/aditya-chaloo-0b2952156/"><img src="https://icon-library.net/images/linkedin-icon-eps/linkedin-icon-eps-29.jpg" width=30 height=30/></a><br/>
 
